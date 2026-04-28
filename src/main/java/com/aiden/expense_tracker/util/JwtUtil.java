@@ -2,19 +2,21 @@ package com.aiden.expense_tracker.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    
-    // Secret key - used to sign and verify tokens
-    private static final String SECRET = "mysupersecretkeythatishopefullylongenough1234567890"; // In production, use a secure key and store it safely
+
+    @Value("${jwt.secret}")
+    private String secret;
+
     private static final long EXPIRATION = 86400000; // 1 day in milliseconds
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
+        return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     // Generate token for user
